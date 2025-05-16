@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cdek_odooAPI2.PvzListItem" owl="1">
+        <div t-att-class="{
+                'list-group-item list-group-item-action cdek-pvz-item': true,
+                'active': props.isSelected
+             }"
+             t-on-click="onClick"
+             role="button"
+             tabindex="0"
+             t-att-aria-pressed="props.isSelected.toString()"
+             t-att-data-pvz-code="props.pvz.code">
+
+            <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1 text-truncate" t-att-title="props.pvz.name">
+                    <i t-if="props.pvz.type === 'POSTAMAT'" class="fa fa-dropbox me-1 text-muted" title="Постамат"/>
+                    <i t-else="" class="fa fa-building-o me-1 text-muted" title="Пункт выдачи"/>
+                    <t t-esc="props.pvz.name"/>
+                </h6>
+                <small t-if="props.pvz.distance_km" class="text-muted"><t t-esc="props.pvz.distance_km.toFixed(1)"/> км</small>
+            </div>
+            <p class="mb-1 text-muted small text-truncate" t-att-title="fullAddress">
+                <t t-esc="fullAddress"/>
+            </p>
+            <small class="text-muted d-block">
+                <t t-if="props.pvz.work_time">Время работы: <t t-esc="props.pvz.work_time"/></t>
+            </small>
+            <small t-if="paymentInfo" class="text-muted d-block">
+                Оплата: <t t-esc="paymentInfo"/>
+            </small>
+            </div>
+    </t>
+</templates>

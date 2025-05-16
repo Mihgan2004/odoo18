@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <record id="view_order_form_cdek_hidden" model="ir.ui.view">
+      <field name="name">sale.order.form.cdek.hidden</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="priority" eval="20"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="partner_shipping_id_city" invisible="1"/>
+          <field name="partner_shipping_id_country_code" invisible="1"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="view_order_form_cdek_tracking" model="ir.ui.view">
+      <field name="name">sale.order.form.cdek.tracking</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="priority" eval="21"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='payment_term_id']" position="after">
+          <separator string="CDEK Tracking"/>
+          <field name="cdek_order_uuid"
+                 readonly="1"
+                 modifiers="{'invisible': [('cdek_order_uuid','=',False)]}"/>
+          <button name="action_view_cdek_tracking"
+                  type="object"
+                  icon="fa-truck"
+                  string="Track on CDEK"
+                  modifiers="{'invisible': [('cdek_order_uuid','=',False)]}"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="view_order_form_cdek_pvz_selector" model="ir.ui.view">
+      <field name="name">sale.order.form.cdek.pvz.selector</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="priority" eval="22"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_shipping_id']" position="after">
+
+          <separator string="CDEK Pickup Point"/>
+
+          <field name="cdek_pvz_id"
+                 widget="cdek_pvz_selector"
+                 nolabel="1"
+                 colspan="2"
+                 options="{'no_open': true}"
+                 placeholder="Выберите ПВЗ СДЭК…"
+                 modifiers="{
+                    'readonly': [('state','in',['sale','done','cancel'])],
+                    'invisible': ['|', ('carrier_id','=',False),
+                                      ('carrier_id.delivery_type','!=','cdek')]
+                 }"/>
+
+          <field name="cdek_pvz_code"
+                 readonly="1"
+                 modifiers="{
+                    'invisible': ['|', ('carrier_id','=',False),
+                                      ('carrier_id.delivery_type','!=','cdek')]
+                 }"/>
+
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="checkout_delivery_cdek_widget"
+            inherit_id="website_sale.checkout"
+            name="CDEK PVZ Widget in Checkout">
+    <xpath expr="//div[@id='shop_checkout']" position="inside">
+      <t t-if="order.carrier_id and order.carrier_id.delivery_type == 'cdek'">
+        <div class="cdek_pvz_widget_container mt-3 mb-3">
+          <div id="cdekPvzSelectorRoot"
+               t-att-data-order-id="order.id"
+               t-att-data-carrier-id="order.carrier_id.id"
+               t-att-data-partner-shipping-id="order.partner_shipping_id.id"
+               t-att-data-partner-shipping-city="order.partner_shipping_id.city"
+               t-att-data-partner-shipping-country-code="order.partner_shipping_id.country_id.code"/>
+        </div>
+      </t>
+    </xpath>
+  </template>
+</odoo>
+    

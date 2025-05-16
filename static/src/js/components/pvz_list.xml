@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cdek_odooAPI2.PvzList" owl="1">
+        <div class="cdek-pvz-list list-group overflow-auto" style="max-height: 400px;">
+            <t t-if="props.pvzList.length > 0">
+                <t t-foreach="props.pvzList" t-as="pvz" t-key="pvz.code">
+                    <PvzListItem
+                        pvz="pvz"
+                        isSelected="pvz.code === props.selectedPvzCode"
+                        onPvzClicked.bind="handlePvzClicked"
+                    />
+                </t>
+            </t>
+            <t t-else="">
+                <div class="list-group-item text-center text-muted">
+                    <t t-if="!env.services.rpc || !env.services.rpc.isLoading"> Нет доступных пунктов выдачи по вашему запросу.
+                    </t>
+                    <t t-else="">
+                        Загрузка...
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

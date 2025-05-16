@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <menuitem
+      id="menu_cdek_root_config"
+      name="CDEK"
+      parent="sale.menu_sale_config"
+      sequence="50"
+      groups="base.group_system"/>
+
+    <menuitem
+      id="menu_cdek_tariff_list"
+      name="Tariffs"
+      parent="menu_cdek_root_config"
+      action="cdek_odooAPI2.action_cdek_tariff_list"
+      sequence="10"
+      groups="base.group_user"/>
+    
+  </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cdek_odooAPI2.PvzMap" owl="1">
+        <div class="cdek-pvz-map-component-wrapper">
+            <div t-if="state.mapLoadingError" class="alert alert-danger" role="alert">
+                <t t-esc="state.mapLoadingError"/>
+            </div>
+            <div t-elif="!props.yandexApiKey" class="alert alert-warning" role="alert">
+                <t t-esc="_t('Yandex Maps API key is not provided. Map is unavailable.')"/>
+            </div>
+            <div t-else="" class="map-container-actual" t-ref="mapContainerRef" style="width: 100%; height: 400px; background-color: #e9e9e9;">
+                <div t-if="!state.mapInitialized &amp;&amp; !state.mapLoadingError"
+                     class="d-flex justify-content-center align-items-center h-100 text-muted">
+                    <div class="spinner-border spinner-border-sm me-2" role="status">
+                        <span class="visually-hidden"><t t-esc="_t('Loading...')"/></span>
+                    </div>
+                    <t t-esc="_t('Loading map...')"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cdek_odooAPI2.CdekPvzSelector" owl="1">
+        <div class="cdek-pvz-selector">
+            <div class="form-group">
+                <label for="cdek_city_input" class="form-label">Город доставки:</label>
+                <CityAutocompleteInput
+                    id="'cdek_city_input'"
+                    selectedCity="state.selectedCity"
+                    onCitySelected.bind="onCitySelected"
+                    placeholder="'Начните вводить город...'"
+                    />
+                <div t-if="state.isLoadingCities" class="spinner-border spinner-border-sm text-primary ms-2" role="status">
+                    <span class="visually-hidden">Loading cities...</span>
+                </div>
+            </div>
+
+            <div t-if="state.selectedCity">
+                <hr/>
+                <div class="row">
+                    <div class="col-md-6 cdek-pvz-list-column">
+                        <h5>Пункты выдачи (<t t-esc="filteredPvzList.length"/>):</h5>
+                        <input type="text" class="form-control mb-2" placeholder="Фильтр по названию или адресу..."
+                               t-on-input="onFilterInput" t-att-value="state.filterText"/>
+
+                        <div t-if="state.isLoadingPvz" class="d-flex justify-content-center my-3">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading PVZ...</span>
+                            </div>
+                        </div>
+                        <div t-else="">
+                            <PvzList
+                                pvzList="filteredPvzList"
+                                selectedPvzCode="state.selectedPvz ? state.selectedPvz.code : (state.currentPvzCode ? state.currentPvzCode : false)"
+                                onPvzSelected.bind="onPvzSelected"
+                                />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 cdek-pvz-map-column">
+                         <h5>Карта ПВЗ:</h5>
+                         <PvzMap t-if="state.yandexApiKey and state.selectedCity"
+                            yandexApiKey="state.yandexApiKey"
+                            city="state.selectedCity"
+                            pvzList="state.availablePvz"
+                            selectedPvz="state.selectedPvz"
+                            onMapReady.bind="onMapReady"
+                            onPvzSelectedFromMap.bind="onPvzSelected"
+                            t-ref="pvzMapRef"
+                         />
+                         <div t-elif="!state.yandexApiKey and state.selectedCity" class="alert alert-warning" role="alert">
+                            Ключ API для карты не настроен. Карта недоступна.
+                         </div>
+                         <div t-if="!state.selectedCity" class="alert alert-info" role="alert">
+                            Выберите город для отображения карты ПВЗ.
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
